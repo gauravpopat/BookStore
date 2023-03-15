@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Traits\ResponseTrait;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
@@ -13,7 +14,7 @@ class BookController extends Controller
 
     public function list($id)
     {
-        $book = Book::with('author','customers','reviews')->whereId($id)->get();
+        $book = Book::with('user','customers','reviews')->whereId($id)->get();
         return $this->returnResponse(true,'Data',$book);
     }
 
@@ -22,13 +23,17 @@ class BookController extends Controller
         $validation = Validator::make($request->all(), [
             'name'           => 'required|max:40|string',
             'price'          => 'required|numeric',
-            'author_id'      => 'required|exists:authors,id'
+            'user_id'        => 'required|exists:users,id'
         ]);
 
         if ($validation->fails())
             return $this->validationErrorsResponse($validation);
 
-        $book = Book::create($request->only(['name', 'price', 'author_id']));
+        User::where('id',$request->user_id)->update([
+            'role'  => 'author'
+        ]);
+
+        $book = Book::create($request->only(['name', 'price', 'user_id']));
         return $this->returnResponse(true, 'Book Added Successfully', $book);
     }
 

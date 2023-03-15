@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name',255);
             $table->integer('price');
-            $table->unsignedBigInteger('author_id');
-            $table->foreign('author_id')->references('id')->on('books');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('books');
             $table->timestamps();
         });
     }

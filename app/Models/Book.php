@@ -11,18 +11,18 @@ class Book extends Model
 
     protected $fillable = [
         'name',
-        'author_id',
+        'user_id',
         'price'
     ];
 
-    public function author()
+    public function user()
     {
-        return $this->belongsTo(Author::class);
+        return $this->belongsTo(User::class);
     }
 
     public function customers()
     {
-        return $this->hasMany(Customer::class,'purchased_book_id');
+        return $this->belongsToMany(User::class,'orders');
     }
 
     public function reviews()

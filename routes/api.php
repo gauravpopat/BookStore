@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
-use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReviewController;
 
 /*
@@ -31,15 +32,7 @@ Route::controller(BookController::class)->prefix('book')->group(function () {
     Route::get('delete/{id}','delete')->name('delete');
 });
 
-Route::controller(AuthorController::class)->prefix('author')->group(function(){
-    Route::get('list/{id}','list')->name('list');
-    Route::post('create', 'create')->name('create');
-    Route::get('show','show')->name('show');
-    Route::post('update','update')->name('update');
-    Route::get('delete/{id}','delete')->name('delete');
-});
-
-Route::controller(CustomerController::class)->prefix('customer')->group(function(){
+Route::controller(UserController::class)->prefix('user')->group(function(){
     Route::get('list/{id}','list')->name('list');
     Route::post('create', 'create')->name('create');
     Route::get('show','show')->name('show');
@@ -52,4 +45,9 @@ Route::controller(ReviewController::class)->prefix('review')->group(function(){
     Route::get('show','show')->name('show');
     Route::post('update','update')->name('update');
     Route::get('delete/{id}','delete')->name('delete');
+});
+
+Route::controller(OrderController::class)->prefix('order')->group(function(){
+    Route::post('create', 'create')->name('create');
+    Route::get('show/{user_id}','show')->name('show');
 });
