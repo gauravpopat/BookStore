@@ -49,6 +49,7 @@ class BookController extends Controller
     public function update(Request $request)
     {
         $validation = Validator::make($request->all(), [
+            'id'             => 'required|numeric|exists:books,id',
             'name'           => 'required|max:40|string',
             'price'          => 'required|numeric',
         ]);
